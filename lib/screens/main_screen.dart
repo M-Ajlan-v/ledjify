@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ledjify/constants/app_colors.dart';
 import 'package:ledjify/screens/cashbook/cashbook_screen.dart';
 import 'package:ledjify/screens/home/home_screen.dart';
-import 'package:ledjify/screens/parties/parties_screen.dart';
-import 'package:ledjify/screens/profile/profile_screen.dart';
+import 'package:ledjify/screens/contacts/contact_screen.dart';
+import 'package:ledjify/screens/more/more_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,13 +13,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int selectedIndex = 0; // variable
-
+  int selectedIndex = 0;
   final List<Widget> screens = const [
     HomeScreen(),
-    PartiesScreen(),
+    ContactScreen(),
     CashbookScreen(),
-    ProfileScreen(),
+    MoreScreen(),
   ];
 
   void onNavTap(int index) {
@@ -37,6 +36,32 @@ class _MainScreenState extends State<MainScreen> {
         index: selectedIndex,
         children: screens,
       ),
+
+      floatingActionButton: selectedIndex == 1
+          ? FloatingActionButton.extended(
+        onPressed: () {},
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        icon: const Icon(Icons.person_add),
+        label: const Padding(
+          padding: EdgeInsets.only(left: 8),
+          child: Text(
+            'Add Party',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            bottomLeft: Radius.circular(30),
+            topRight: Radius.circular(6),
+            bottomRight: Radius.circular(6),
+          ),
+        ),
+      )
+          : null,
 
       bottomNavigationBar: Container(
         margin: const EdgeInsets.all(8),
@@ -118,27 +143,6 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-
-            // Center Add Button
-            GestureDetector(
-              onTap: () {
-                // TODO: Add action
-              },
-              child: Container(
-                width: 58,
-                height: 58,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary,
-                ),
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 30,
-                ),
-              ),
-            ),
-
             Expanded(
               child: InkWell(
                 onTap: () => onNavTap(2),
@@ -169,7 +173,6 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-
             Expanded(
               child: InkWell(
                 onTap: () => onNavTap(3),
@@ -179,15 +182,15 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     Icon(
                       selectedIndex == 3
-                          ? Icons.person
-                          : Icons.person_outline,
+                          ? Icons.grid_view_rounded
+                          : Icons.grid_view_outlined,
                       color: selectedIndex == 3
                           ? AppColors.primary
                           : Colors.grey,
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Profile',
+                      'More',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
