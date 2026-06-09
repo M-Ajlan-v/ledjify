@@ -5,10 +5,8 @@ class CashbookScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: Center(
-        child: Text('Cashbook Screen'),
-      ),
+    return const SafeArea(child: Center(
+        child: Text('Cashbook Screen'))
     );
   }
 }

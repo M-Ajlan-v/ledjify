@@ -25,10 +25,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Center(
-        child: Image.asset(
-          'assets/images/ledjify-logo.png',
-          width: 200,
-        ),
+        child: Image.asset('assets/images/ledjify-logo.png', width: 200),
       ),
     );
   }

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ledjify/constants/app_colors.dart';
-import 'package:ledjify/models/party_model.dart';
+import 'package:ledjify/models/contact_model.dart';
+import 'package:ledjify/screens/contacts/contact_detail_screen.dart';
 
 class ContactTile extends StatelessWidget {
-  final PartyModel party;
+  final ContactModel party;
 
-  const ContactTile({
-    super.key,
-    required this.party,
-  });
+  const ContactTile({super.key, required this.party});
 
   @override
   Widget build(BuildContext context) {
@@ -16,23 +14,30 @@ class ContactTile extends StatelessWidget {
 
     switch (party.type) {
       case PartyType.get:
-        amountColor = Colors.green;
+        amountColor = AppColors.get;
         break;
       case PartyType.give:
-        amountColor = Colors.red;
+        amountColor = AppColors.give;
         break;
       case PartyType.settled:
-        amountColor = Colors.grey;
+        amountColor = AppColors.grey;
         break;
     }
 
     return ListTile(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ContactDetailScreen(contact: party),
+          ),
+        );
+      },
       leading: CircleAvatar(
-        backgroundColor: Colors.grey,
+        backgroundColor: AppColors.background,
         child: Text(
-          party.name[0],style: TextStyle(
-          color: AppColors.secondary
-        ),
+          party.name[0],
+          style: const TextStyle(color: AppColors.secondary),
         ),
       ),
       title: Text(party.name),
@@ -42,10 +47,7 @@ class ContactTile extends StatelessWidget {
         children: [
           Text(
             '₹ ${party.amount.toStringAsFixed(0)}',
-            style: TextStyle(
-              color: amountColor,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(color: amountColor, fontWeight: FontWeight.bold),
           ),
           const SizedBox(width: 8),
           const Icon(Icons.chevron_right),

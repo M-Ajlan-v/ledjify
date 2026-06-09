@@ -1,10 +1,12 @@
-class PartyModel {
+class ContactModel {
+  final int id;
   final String name;
   final double amount;
   final PartyType type;
   final String imageUrl;
 
-  const PartyModel({
+  const ContactModel({
+    required this.id,
     required this.name,
     required this.amount,
     required this.type,

@@ -21,10 +21,7 @@ class ProfileCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.secondary,
-          ],
+          colors: [AppColors.primary, AppColors.secondary],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -48,16 +45,11 @@ class ProfileCard extends StatelessWidget {
             child: CircleAvatar(
               radius: 34,
               backgroundColor: Colors.white,
-              backgroundImage:
-              imageUrl != null && imageUrl!.isNotEmpty
+              backgroundImage: imageUrl != null && imageUrl!.isNotEmpty
                   ? NetworkImage(imageUrl!)
                   : null,
               child: imageUrl == null || imageUrl!.isEmpty
-                  ? const Icon(
-                Icons.person,
-                size: 34,
-                color: Colors.black,
-              )
+                  ? const Icon(Icons.person, size: 34, color: Colors.black)
                   : null,
             ),
           ),
@@ -101,10 +93,7 @@ class ProfileCard extends StatelessWidget {
                 color: Colors.white12,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(
-                Icons.edit_outlined,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.edit_outlined, color: Colors.white),
             ),
           ),
         ],

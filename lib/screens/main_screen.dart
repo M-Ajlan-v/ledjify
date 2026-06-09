@@ -32,43 +32,35 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: const Drawer(),
-      body: IndexedStack(
-        index: selectedIndex,
-        children: screens,
-      ),
+      body: IndexedStack(index: selectedIndex, children: screens),
 
       floatingActionButton: selectedIndex == 1
           ? FloatingActionButton.extended(
-        onPressed: () {},
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.person_add),
-        label: const Padding(
-          padding: EdgeInsets.only(left: 8),
-          child: Text(
-            'Add Party',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30),
-            topRight: Radius.circular(6),
-            bottomRight: Radius.circular(6),
-          ),
-        ),
-      )
+              onPressed: () {},
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              icon: const Icon(Icons.person_add),
+              label: const Padding(
+                padding: EdgeInsets.only(left: 8),
+                child: Text(
+                  'Add Party',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  bottomLeft: Radius.circular(30),
+                  topRight: Radius.circular(6),
+                  bottomRight: Radius.circular(6),
+                ),
+              ),
+            )
           : null,
 
       bottomNavigationBar: Container(
         margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 10,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -90,9 +82,7 @@ class _MainScreenState extends State<MainScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      selectedIndex == 0
-                          ? Icons.home
-                          : Icons.home_outlined,
+                      selectedIndex == 0 ? Icons.home : Icons.home_outlined,
                       color: selectedIndex == 0
                           ? AppColors.primary
                           : Colors.grey,
@@ -121,9 +111,7 @@ class _MainScreenState extends State<MainScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      selectedIndex == 1
-                          ? Icons.people
-                          : Icons.people_outline,
+                      selectedIndex == 1 ? Icons.people : Icons.people_outline,
                       color: selectedIndex == 1
                           ? AppColors.primary
                           : Colors.grey,

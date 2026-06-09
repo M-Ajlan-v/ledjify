@@ -49,10 +49,7 @@ class SummaryCard extends StatelessWidget {
                     children: [
                       const Text(
                         "You'll Get",
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 13,
-                        ),
+                        style: TextStyle(color: Colors.white70, fontSize: 13),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -76,9 +73,7 @@ class SummaryCard extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 70,
-                  child: VerticalDivider(
-                    color: Colors.white24,
-                  ),
+                  child: VerticalDivider(color: Colors.white24),
                 ),
                 Expanded(
                   child: Column(
@@ -86,10 +81,7 @@ class SummaryCard extends StatelessWidget {
                     children: [
                       const Text(
                         "You'll Give",
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 13,
-                        ),
+                        style: TextStyle(color: Colors.white70, fontSize: 13),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -116,7 +108,10 @@ class SummaryCard extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
               color: Color(0xFFFFFFFF),
             ),
             child: Padding(
@@ -129,10 +124,7 @@ class SummaryCard extends StatelessWidget {
                       children: [
                         const Text(
                           'Net Balance',
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.black87, fontSize: 14),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -158,11 +150,7 @@ class SummaryCard extends StatelessWidget {
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.arrow_upward,
-                          color: Colors.green,
-                          size: 14,
-                        ),
+                        Icon(Icons.arrow_upward, color: Colors.green, size: 14),
                         SizedBox(width: 4),
                         Text(
                           'Good going!',
