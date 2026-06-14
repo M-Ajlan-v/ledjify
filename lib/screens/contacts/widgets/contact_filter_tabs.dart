@@ -15,6 +15,13 @@ class ContactFilterTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     final tabs = ['All', "You'll Get", "You'll Give", 'Settled'];
 
+    final tabColors = [
+      Colors.black,
+      AppColors.get,
+      AppColors.give,
+      Colors.blue,
+    ];
+
     return Container(
       height: 52,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -27,6 +34,7 @@ class ContactFilterTabs extends StatelessWidget {
             child: _TabItem(
               title: tabs[index],
               selected: selectedIndex == index,
+              color: tabColors[index],
             ),
           ),
         ),
@@ -38,8 +46,13 @@ class ContactFilterTabs extends StatelessWidget {
 class _TabItem extends StatelessWidget {
   final String title;
   final bool selected;
+  final Color color;
 
-  const _TabItem({required this.title, required this.selected});
+  const _TabItem({
+    required this.title,
+    required this.selected,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +62,16 @@ class _TabItem extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: selected ? AppColors.primary : AppColors.grey,
-            fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+            color: selected ? color : AppColors.grey,
+            fontWeight:
+                selected ? FontWeight.w600 : FontWeight.w500,
           ),
         ),
         const SizedBox(height: 6),
         Container(
           width: 28,
           height: 2,
-          color: selected ? AppColors.primary : Colors.transparent,
+          color: selected ? color : Colors.transparent,
         ),
       ],
     );

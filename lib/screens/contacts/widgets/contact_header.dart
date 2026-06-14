@@ -3,8 +3,15 @@ import '../../../constants/app_colors.dart';
 
 class ContactHeader extends StatefulWidget {
   final ValueChanged<String> onSearchChanged;
+  final double totalToGet;
+  final double totalToGive;
 
-  const ContactHeader({super.key, required this.onSearchChanged});
+  const ContactHeader({
+    super.key,
+    required this.onSearchChanged,
+    required this.totalToGet,
+    required this.totalToGive,
+  });
 
   @override
   State<ContactHeader> createState() => _ContactHeaderState();
@@ -41,7 +48,11 @@ class _ContactHeaderState extends State<ContactHeader> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Icon(Icons.group_add_outlined, color: Colors.white, size: 28),
+                  Icon(
+                    Icons.group_add_outlined,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
@@ -74,6 +85,74 @@ class _ContactHeaderState extends State<ContactHeader> {
                     contentPadding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                 ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: .15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Total To Get',
+                            style: TextStyle(
+                              color: Colors.green[700],
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '₹${widget.totalToGet.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: .15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Total To Give',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '₹${widget.totalToGive.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

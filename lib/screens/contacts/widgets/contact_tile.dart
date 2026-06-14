@@ -20,7 +20,7 @@ class ContactTile extends StatelessWidget {
         amountColor = AppColors.give;
         break;
       case PartyType.settled:
-        amountColor = AppColors.grey;
+        amountColor = Colors.blue;
         break;
     }
 
@@ -34,14 +34,23 @@ class ContactTile extends StatelessWidget {
         );
       },
       leading: CircleAvatar(
-        backgroundColor: AppColors.background,
+        backgroundColor:amountColor.withValues(alpha: 0.2),
         child: Text(
           party.name[0],
-          style: const TextStyle(color: AppColors.secondary),
+          style: const TextStyle(color: AppColors.secondary,
+          fontWeight: FontWeight(800)
+          ),
         ),
       ),
-      title: Text(party.name),
-      subtitle: Text(party.subtitle),
+      title: Text(party.name,
+      style: TextStyle(
+        fontWeight: FontWeight(700)
+      ),),
+      subtitle: Text(party.subtitle,
+      style: TextStyle(
+        color: amountColor
+      ),
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

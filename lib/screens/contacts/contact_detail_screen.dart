@@ -13,9 +13,8 @@ class ContactDetailScreen extends StatelessWidget {
     final Color amountColor = switch (contact.type) {
       PartyType.get => AppColors.get,
       PartyType.give => AppColors.give,
-      PartyType.settled => AppColors.grey,
+      PartyType.settled => Colors.blue,
     };
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Column(
