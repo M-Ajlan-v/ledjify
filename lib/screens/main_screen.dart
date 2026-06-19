@@ -44,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       drawer: const Drawer(),
       body: IndexedStack(index: selectedIndex, children: screens),
       floatingActionButton: selectedIndex == 1

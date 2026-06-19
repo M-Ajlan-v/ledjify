@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ledjify/constants/app_colors.dart';
 import 'package:ledjify/data/account_data.dart';
 import 'package:ledjify/screens/accounts/widgets/account_card.dart';
-import 'package:ledjify/screens/widgets/add_button.dart';
 import 'package:ledjify/screens/widgets/app_button.dart';
 
 class AccountScreen extends StatelessWidget {

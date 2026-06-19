@@ -4,14 +4,14 @@ class ContactData {
   static const List<ContactModel> parties = [
     ContactModel(
       id: 1,
-      name: 'Rohit',
-      amount: 5400,
+      name: 'Arun Kumar',
+      amount: 500,
       type: PartyType.get,
       imageUrl: '',
     ),
     ContactModel(
       id: 2,
-      name: 'Anjali',
+      name: 'Rahul',
       amount: 2350,
       type: PartyType.give,
       imageUrl: '',
@@ -32,73 +32,54 @@ class ContactData {
     ),
     ContactModel(
       id: 5,
-      name: 'Arjun',
+      name: 'Suresh',
       amount: 7800,
       type: PartyType.get,
       imageUrl: '',
     ),
     ContactModel(
       id: 6,
-      name: 'Sneha',
+      name: 'Nithin',
       amount: 1500,
       type: PartyType.give,
       imageUrl: '',
     ),
     ContactModel(
       id: 7,
-      name: 'Rahul',
-      amount: 0,
-      type: PartyType.settled,
-      imageUrl: '',
-    ),
-    ContactModel(
-      id: 8,
-      name: 'Priya',
-      amount: 4250,
-      type: PartyType.get,
-      imageUrl: '',
-    ),
-    ContactModel(
-      id: 9,
-      name: 'Kiran',
-      amount: 3100,
-      type: PartyType.give,
-      imageUrl: '',
-    ),
-    ContactModel(
-      id: 10,
-      name: 'Deepak',
-      amount: 6700,
-      type: PartyType.get,
-      imageUrl: '',
-    ),
-    ContactModel(
-      id: 11,
-      name: 'Neha',
-      amount: 0,
-      type: PartyType.settled,
-      imageUrl: '',
-    ),
-    ContactModel(
-      id: 12,
-      name: 'Suresh',
-      amount: 2800,
-      type: PartyType.give,
-      imageUrl: '',
-    ),
-    ContactModel(
-      id: 13,
-      name: 'Meera',
-      amount: 5100,
-      type: PartyType.get,
-      imageUrl: '',
-    ),
-    ContactModel(
-      id: 14,
-      name: 'Raj',
+      name: 'Manu',
       amount: 0,
       type: PartyType.settled,
       imageUrl: '',
     ),
   ];
+
+  static String getContactName(int? partyId) {
+    if (partyId == null) return '';
+    final contact = parties.firstWhere(
+      (c) => c.id == partyId,
+      orElse: () => ContactModel(
+        id: -1,
+        name: 'Unknown',
+        amount: 0,
+        type: PartyType.settled,
+        imageUrl: '',
+      ),
+    );
+    return contact.name;
+  }
+
+  static PartyType getContactType(int? partyId) {
+    if (partyId == null) return PartyType.settled;
+    final contact = parties.firstWhere(
+      (c) => c.id == partyId,
+      orElse: () => ContactModel(
+        id: -1,
+        name: 'Unknown',
+        amount: 0,
+        type: PartyType.settled,
+        imageUrl: '',
+      ),
+    );
+    return contact.type;
+  }
 }

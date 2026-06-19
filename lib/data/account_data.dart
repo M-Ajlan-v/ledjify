@@ -1,40 +1,66 @@
+import '../models/account_model.dart';
 
-import 'package:ledjify/models/account_model.dart';
-
-final accounts = [
-  const AccountModel(
+const accounts = [
+  AccountModel(
     id: 1,
     userId: 1,
     name: 'Cash',
     type: 'CASH',
-    openingBalance: 5000,
-    currentBalance: 3800,
+    openingBalance: 10000,
+    currentBalance: 18050,
   ),
-  const AccountModel(
+  AccountModel(
     id: 2,
     userId: 1,
-    name: 'HDFC Bank',
+    name: 'SBI Bank',
     type: 'BANK',
-    accountNumber: '5678',
-    openingBalance: 10000,
-    currentBalance: 12450,
+    accountNumber: 'XXXX1234',
+    openingBalance: 50000,
+    currentBalance: 51500,
   ),
-  const AccountModel(
+  AccountModel(
     id: 3,
     userId: 1,
     name: 'Google Pay',
     type: 'UPI',
-    upiId: 'aju@okicici',
-    openingBalance: 0,
-    currentBalance: 2200,
+    upiId: 'aju@sbi',
+    openingBalance: 2000,
+    currentBalance: 3750,
   ),
-  const AccountModel(
+  AccountModel(
     id: 4,
     userId: 1,
-    name: 'SBI Bank',
-    type: 'BANK',
-    accountNumber: '2698',
-    openingBalance: 1450,
-    currentBalance: 12450,
+    name: 'Paytm Wallet',
+    type: 'WALLET',
+    wallet: '9876543210',
+    openingBalance: 1000,
+    currentBalance: 850,
   ),
 ];
+
+class AccountData {
+  static String getAccountName(int? accountId) {
+    if (accountId == null) return 'Unknown';
+    final account = accounts.firstWhere(
+      (acc) => acc.id == accountId,
+      orElse: () => AccountModel(
+        id: accountId,
+        userId: 1,
+        name: 'Account $accountId',
+        type: 'UNKNOWN',
+        openingBalance: 0,
+        currentBalance: 0,
+      ),
+    );
+    return account.name;
+  }
+  
+  static AccountModel? getAccount(int? accountId) {
+    if (accountId == null) return null;
+    try {
+      return accounts.firstWhere((acc) => acc.id == accountId);
+    } catch (e) {
+      return null;
+    }
+  }
+}

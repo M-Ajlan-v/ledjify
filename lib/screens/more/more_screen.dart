@@ -4,6 +4,7 @@ import 'package:ledjify/screens/accounts/account_screen.dart';
 import 'package:ledjify/screens/main_screen.dart';
 import 'package:ledjify/screens/more/widgets/profile_card.dart';
 import 'package:ledjify/screens/more/widgets/menu_section.dart';
+import 'package:ledjify/screens/transfers/transfer_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({super.key});
@@ -34,7 +35,7 @@ class MoreScreen extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => const MainScreen(initialIndex: 2),
+          builder: (_) => const MainScreen(initialIndex: 2)
         ),
       );
     },
@@ -58,7 +59,14 @@ class MoreScreen extends StatelessWidget {
     color: Colors.deepPurple,
     title: 'Transfer Money',
     subtitle: 'Transfer between accounts',
-    onTap: () {},
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const TransferScreen(),
+        ),
+      );
+    },
   ),
   MenuItemData(
     icon: Icons.people_outline,
