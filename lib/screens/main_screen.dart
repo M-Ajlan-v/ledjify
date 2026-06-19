@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ledjify/constants/app_colors.dart';
 import 'package:ledjify/screens/cashbook/cashbook_screen.dart';
+import 'package:ledjify/screens/contacts/add_contact_screen.dart';
 import 'package:ledjify/screens/home/home_screen.dart';
 import 'package:ledjify/screens/contacts/contact_screen.dart';
 import 'package:ledjify/screens/more/more_screen.dart';
@@ -49,7 +50,14 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(index: selectedIndex, children: screens),
       floatingActionButton: selectedIndex == 1
           ? FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddContactScreen(),
+                  ),
+                );
+              },
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
               icon: const Icon(Icons.person_add),

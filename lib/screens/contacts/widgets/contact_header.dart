@@ -48,11 +48,6 @@ class _ContactHeaderState extends State<ContactHeader> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Icon(
-                    Icons.group_add_outlined,
-                    color: Colors.white,
-                    size: 28,
-                  ),
                 ],
               ),
               const SizedBox(height: 20),
