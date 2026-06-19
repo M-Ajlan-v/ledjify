@@ -226,14 +226,16 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: TransactionList(
-                transactions: _transactions,
-                titleBuilder: _getTitle,
-                cashInBuilder: (tx) => _displayService.getCashIn(tx),
-                cashOutBuilder: (tx) => _displayService.getCashOut(tx),
-                typeBuilder: _getType,
-                accountNameBuilder: _getAccountName,
-                accountPrefixBuilder: _getAccountPrefix,
+              child: SingleChildScrollView(
+                child: TransactionList(
+                  transactions: _transactions,
+                  titleBuilder: _getTitle,
+                  cashInBuilder: (tx) => _displayService.getCashIn(tx),
+                  cashOutBuilder: (tx) => _displayService.getCashOut(tx),
+                  typeBuilder: _getType,
+                  accountNameBuilder: _getAccountName,
+                  accountPrefixBuilder: _getAccountPrefix,
+                ),
               ),
             ),
           ),
@@ -266,3 +268,5 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
     );
   }
 }
+
+//filter

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ledjify/constants/app_colors.dart';
-import 'package:ledjify/models/transaction_model.dart';
+import 'package:ledjify/providers/cashbook_provider.dart';
+import 'package:ledjify/screens/cashbook/widgets/cashbook_search_bar.dart';
+import 'package:ledjify/screens/cashbook/widgets/cashbook_summary_card.dart';
+import 'package:ledjify/screens/widgets/app_button.dart';
 import 'package:ledjify/screens/widgets/transaction_list.dart';
-import 'package:ledjify/services/transaction_service.dart';
-import 'package:ledjify/services/transaction_display_service.dart';
-import 'package:ledjify/data/account_data.dart';
 
 class CashbookScreen extends StatefulWidget {
   const CashbookScreen({super.key});
@@ -14,112 +15,85 @@ class CashbookScreen extends StatefulWidget {
 }
 
 class _CashbookScreenState extends State<CashbookScreen> {
-  final TransactionService _transactionService = TransactionService();
-  final TransactionDisplayService _displayService = TransactionDisplayService();
-  List<TransactionModel> _transactions = [];
-
   @override
   void initState() {
     super.initState();
-    _loadTransactions();
-  }
-
-  Future<void> _loadTransactions() async {
-    final data = await _transactionService.getTransactions(
-      types: ['INCOME', 'EXPENSE'],  
-    );
-    
-    setState(() {
-      _transactions = data;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CashbookProvider>().loadTransactions();
     });
-  }
-
-  String _getTitle(TransactionModel tx) {
-    if (tx.partyId != null) {
-      return _displayService.getTitle(tx);
-    }
-    
-    if (tx.utilityId != null) {
-      return _displayService.getTitle(tx);
-    }
-    
-    if (tx.transactionType == 'INCOME') {
-      return 'Income to ${AccountData.getAccountName(tx.accountId)}';
-    }
-    
-    if (tx.transactionType == 'EXPENSE') {
-      return 'Expense from ${AccountData.getAccountName(tx.accountId)}';
-    }
-    
-    return _displayService.getTitle(tx);
-  }
-
-  String? _getAccountName(TransactionModel tx) {
-    if (tx.transactionType == 'INCOME') {
-      return AccountData.getAccountName(tx.accountId);
-    }
-    
-    if (tx.transactionType == 'EXPENSE') {
-      return AccountData.getAccountName(tx.accountId);
-    }
-    
-    return null;
-  }
-
-  String? _getAccountPrefix(TransactionModel tx) {
-    if (tx.transactionType == 'INCOME') {
-      return 'To';
-    }
-    
-    if (tx.transactionType == 'EXPENSE') {
-      return 'From';
-    }
-    
-    return null;
-  }
-
-  String? _getType(TransactionModel tx) {
-    if (tx.partyId != null) {
-      return tx.transactionType == 'GET' ? 'GET' : 'GIVE';
-    }
-    
-    if (tx.utilityId != null) {
-      return _displayService.getDisplayType(tx);
-    }
-    
-    return _displayService.getDisplayType(tx);
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<CashbookProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.primary,
+        elevation: 0,
+        title: const Text(
+          'Cashbook',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
       body: Column(
         children: [
-          SafeArea(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'Cashbook',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CashbookSearchBar(
+                    onChanged: provider.search,
+                    onFilterTap: () => provider.openFilters(context),
+                  ),
+                  CashbookSummaryCard(
+                    period: provider.period,
+                    income: provider.incomeTotal,
+                    expense: provider.expenseTotal,
+                    onPeriodTap: () => provider.openPeriodSelector(context),
+                  ),
+                  TransactionList(
+                    transactions: provider.filteredTransactions,
+                    titleBuilder: provider.getTitle,
+                    cashInBuilder: provider.getCashIn,
+                    cashOutBuilder: provider.getCashOut,
+                    typeBuilder: provider.getType,
+                    accountNameBuilder: provider.getAccountName,
+                    accountPrefixBuilder: provider.getAccountPrefix,
+                  ),
+                ],
               ),
             ),
           ),
-          Expanded(
-            child: TransactionList(
-              transactions: _transactions,
-              titleBuilder: _getTitle,
-              cashInBuilder: (tx) => _displayService.getCashIn(tx),
-              cashOutBuilder: (tx) => _displayService.getCashOut(tx),
-              typeBuilder: _getType,
-              accountNameBuilder: _getAccountName,
-              accountPrefixBuilder: _getAccountPrefix,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    text: 'INCOME',
+                    icon: Icons.arrow_upward,
+                    color: AppColors.give,
+                    onPressed: () {},
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: AppButton(
+                    text: 'EXPENSE',
+                    icon: Icons.arrow_downward,
+                    color: AppColors.get,
+                    onPressed: () {},
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );

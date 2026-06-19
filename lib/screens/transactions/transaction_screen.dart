@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ledjify/screens/transactions/widgets/periodic_selector.dart';
+import 'package:provider/provider.dart';
 import 'package:ledjify/constants/app_colors.dart';
-import 'package:ledjify/models/transaction_model.dart';
-import 'package:ledjify/services/transaction_service.dart';
+import 'package:ledjify/providers/transaction_provider.dart';
 import 'package:ledjify/screens/widgets/transaction_list.dart';
-import 'package:ledjify/data/contact_data.dart';
-import 'package:ledjify/data/utility_data.dart';
-import 'package:ledjify/data/account_data.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({super.key});
@@ -15,127 +13,20 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
-  final TransactionService _service = TransactionService();
-
-  late Future<List<TransactionModel>> _future;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _future = _service.getTransactions();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<TransactionProvider>().loadTransactions();
+    });
   }
 
-  String _getTitle(TransactionModel tx) {
-    if (tx.partyId != null) {
-      return ContactData.getContactName(tx.partyId);
-    }
-    
-    if (tx.utilityId != null) {
-      return UtilityData.getUtilityName(tx.utilityId);
-    }
-    
-    if (tx.transactionType == 'SELF') {
-      final fromAccount = AccountData.getAccountName(tx.accountId);
-      final toAccount = AccountData.getAccountName(tx.toAccountId);
-      return '$fromAccount → $toAccount';
-    }
-    
-    if (tx.transactionType == 'GET') {
-      return 'Received to ${AccountData.getAccountName(tx.accountId)}';
-    }
-    
-    if (tx.transactionType == 'GIVE') {
-      return 'Paid from ${AccountData.getAccountName(tx.accountId)}';
-    }
-    
-    if (tx.transactionType == 'INCOME') {
-      return 'Income to ${AccountData.getAccountName(tx.accountId)}';
-    }
-    
-    if (tx.transactionType == 'EXPENSE') {
-      return 'Expense from ${AccountData.getAccountName(tx.accountId)}';
-    }
-    
-    return tx.transactionType ?? 'Transaction';
-  }
-
-  double? _getCashIn(TransactionModel tx) {
-    if (tx.partyId != null && tx.transactionType == 'GET') {
-      return tx.amount;
-    }
-    
-    if (tx.utilityId != null && UtilityData.getUtilityType(tx.utilityId) == 'INCOME') {
-      return tx.amount;
-    }
-    
-    if (tx.transactionType == 'INCOME') {
-      return tx.amount;
-    }
-    
-    if (tx.transactionType == 'SELF' && tx.toAccountId != null) {
-      return tx.amount;
-    }
-    
-    return null;
-  }
-
-  double? _getCashOut(TransactionModel tx) {
-    if (tx.partyId != null && tx.transactionType == 'GIVE') {
-      return tx.amount;
-    }
-    
-    if (tx.utilityId != null && UtilityData.getUtilityType(tx.utilityId) == 'EXPENSE') {
-      return tx.amount;
-    }
-    
-    if (tx.transactionType == 'EXPENSE') {
-      return tx.amount;
-    }
-    
-    if (tx.transactionType == 'SELF') {
-      return tx.amount;
-    }
-    
-    return null;
-  }
-
-  String? _getType(TransactionModel tx) {
-    if (tx.partyId != null) {
-      return tx.transactionType == 'GET' ? 'GET' : 'GIVE';
-    }
-    
-    if (tx.utilityId != null) {
-      return UtilityData.getUtilityType(tx.utilityId);
-    }
-    
-    if (tx.transactionType == 'SELF') {
-      return 'TRANSFER';
-    }
-    
-    return tx.transactionType;
-  }
-
-  String? _getAccountName(TransactionModel tx) {
-    if (tx.transactionType == 'SELF') {
-      return null;
-    }
-    return AccountData.getAccountName(tx.accountId);
-  }
-
-  String? _getAccountPrefix(TransactionModel tx) {
-    if (tx.transactionType == 'SELF') {
-      return null;
-    }
-    
-    if (tx.transactionType == 'GET' || tx.transactionType == 'INCOME') {
-      return 'To';
-    }
-    
-    if (tx.transactionType == 'GIVE' || tx.transactionType == 'EXPENSE') {
-      return 'From';
-    }
-    
-    return null;
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -157,40 +48,116 @@ class _TransactionScreenState extends State<TransactionScreen> {
           },
         ),
       ),
-      body: FutureBuilder<List<TransactionModel>>(
-        future: _future,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+      body: Consumer<TransactionProvider>(
+        builder: (context, provider, child) {
+          if (provider.isLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          if (snapshot.hasError) {
+          if (provider.error != null) {
             return Center(
               child: Text(
-                'Error: ${snapshot.error}',
+                'Error: ${provider.error}',
                 style: const TextStyle(color: Colors.red),
               ),
             );
           }
 
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text('No transactions found'),
-            );
-          }
-
-          final transactions = snapshot.data!;
-
-          return TransactionList(
-            transactions: transactions,
-            titleBuilder: _getTitle,
-            cashInBuilder: _getCashIn,
-            cashOutBuilder: _getCashOut,
-            typeBuilder: _getType,
-            accountNameBuilder: _getAccountName,
-            accountPrefixBuilder: _getAccountPrefix,
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: provider.search,
+                        decoration: InputDecoration(
+                          hintText: 'Search transactions',
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    provider.search('');
+                                  },
+                                )
+                              : null,
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.filter_list),
+                        onPressed: () {
+                          provider.openFilters(context);
+                        },
+                        color: provider.typeFilter != 'ALL' 
+                            ? AppColors.primary 
+                            : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Transactions',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    PeriodSelector(
+                      currentPeriod: provider.period,
+                      onTap: () {
+                        provider.openPeriodSelector(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              if (provider.transactions.isEmpty)
+                const Expanded(
+                  child: Center(
+                    child: Text('No transactions found'),
+                  ),
+                )
+              else
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: TransactionList(
+                      transactions: provider.transactions,
+                      titleBuilder: provider.getTitle,
+                      cashInBuilder: provider.getCashIn,
+                      cashOutBuilder: provider.getCashOut,
+                      typeBuilder: provider.getType,
+                      accountNameBuilder: provider.getAccountName,
+                      accountPrefixBuilder: provider.getAccountPrefix,
+                    ),
+                  ),
+                ),
+            ],
           );
         },
       ),

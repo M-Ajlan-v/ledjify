@@ -16,98 +16,36 @@ class AccountScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Accounts',
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.add, color: AppColors.primary,))
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(18),
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade300,
-                          offset: const Offset(0, 4),
-                          blurRadius: 8,
-                          spreadRadius: 1,
-                        ),
-                      ]
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Total Balance',
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '₹ ${totalBalance.toStringAsFixed(2)}',
-                              style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 52,
-                          height: 52,
-                          decoration: BoxDecoration(
-                            color: AppColors.background,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(
-                            Icons.wallet,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: accounts.length,
-                itemBuilder: (context, index) {
-                  return AccountCard(account: accounts[index]);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(14),
-              child: AppButton(text: 'Add Account', color: AppColors.primary,
-                  icon: Icons.add,
-                  onPressed: (){}
-              ),
-            )
-          ],
+      appBar: AppBar(
+        title: Text('Accounts',
+        style: TextStyle(
+          color: AppColors.primary,
+          fontWeight: FontWeight(800)
         ),
+        ),
+        backgroundColor: AppColors.background,
+        leading: Icon(Icons.arrow_back_ios_new_outlined),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemCount: accounts.length,
+              itemBuilder: (context, index) {
+                return AccountCard(account: accounts[index]);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: AppButton(text: 'Add Account', color: AppColors.primary,
+                icon: Icons.add,
+                onPressed: (){}
+            ),
+          )
+        ],
       ),
     );
   }

@@ -36,6 +36,8 @@ class TransactionList extends StatelessWidget {
     final dates = grouped.keys.toList();
 
     return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
       itemCount: dates.length,
       itemBuilder: (context, index) {

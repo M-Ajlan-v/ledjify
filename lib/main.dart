@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ledjify/screens/main_screen.dart';
+import 'package:ledjify/providers/transaction_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/cashbook_provider.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
@@ -11,9 +14,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MainScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => CashbookProvider()),
+          ChangeNotifierProvider(create: (_) => TransactionProvider()),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      ),
     );
   }
 }
