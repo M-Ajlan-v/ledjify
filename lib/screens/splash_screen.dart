@@ -39,10 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
             child: Image.asset(
               'assets/images/splash_logo.png',
-              width: 280,
+              width: 320,
             ),
           ),
-          // Position the text at the bottom
+
           Positioned(
             bottom: 20,
             left: 0,

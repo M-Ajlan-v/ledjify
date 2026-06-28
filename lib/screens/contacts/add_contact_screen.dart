@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ledjify/constants/app_colors.dart';
+import 'package:ledjify/screens/contacts/widgets/transaction_direction_card.dart';
 import 'package:ledjify/screens/widgets/app_text_field.dart';
 
 class AddContactScreen extends StatefulWidget {
@@ -12,12 +13,29 @@ class AddContactScreen extends StatefulWidget {
 class _AddContactScreenState extends State<AddContactScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
+
+  String selectedType = 'TO_GIVE';
 
   @override
   void dispose() {
     nameController.dispose();
     phoneController.dispose();
+    amountController.dispose();
     super.dispose();
+  }
+
+  void _createContact() {
+    final requestBody = {
+      "name": nameController.text.trim(),
+      "phone": phoneController.text.trim(),
+      "amount": amountController.text.trim(),
+      "transactionType": selectedType,
+    };
+
+    debugPrint(requestBody.toString());
+
+    Navigator.pop(context);
   }
 
   @override
@@ -29,9 +47,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
         child: SizedBox(
           height: 56,
           child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: _createContact,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.white,
@@ -105,6 +121,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppTextField(
                     label: 'Contact Name',
@@ -118,7 +135,52 @@ class _AddContactScreenState extends State<AddContactScreen> {
                     hintText: 'Enter mobile number',
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
+                    textInputAction: TextInputAction.next,
                   ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Transaction Type',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      TransactionDirectionCard(
+                        title: 'I Gave',
+                        subtitle: 'I already gave them',
+                        icon: Icons.arrow_upward_rounded,
+                        selected: selectedType == 'TO_GIVE',
+                        onTap: () {
+                          setState(() {
+                            selectedType = 'TO_GIVE';
+                          });
+                        },
+                      ),
+                      SizedBox(width: 12,),
+                      TransactionDirectionCard(
+                        title: 'I Got',
+                        subtitle: 'They already gave me',
+                        icon: Icons.arrow_downward_rounded,
+                        selected: selectedType == 'TO_GET',
+                        onTap: () {
+                          setState(() {
+                            selectedType = 'TO_GET';
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  AppTextField(
+                    label: 'Amount',
+                    hintText: 'Enter amount',
+                    controller: amountController,
+                    keyboardType: TextInputType.number,
+                  ),
+                  
                 ],
               ),
             ),

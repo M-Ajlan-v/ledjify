@@ -64,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
               label: const Padding(
                 padding: EdgeInsets.only(left: 8),
                 child: Text(
-                  'Add Party',
+                  'Add Contact',
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),

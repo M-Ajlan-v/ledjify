@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:ledjify/constants/app_colors.dart';
 import 'package:ledjify/models/contact_model.dart';
 import 'package:ledjify/models/transaction_model.dart';
+import 'package:ledjify/screens/contacts/add_contact_transactions_screen.dart';
 import 'package:ledjify/screens/widgets/app_button.dart';
 import 'package:ledjify/screens/widgets/transaction_list.dart';
 import 'package:ledjify/services/transaction_service.dart';
 import 'package:ledjify/services/transaction_display_service.dart';
 import 'package:ledjify/data/account_data.dart';
-
+import 'package:ledjify/models/transaction_form_type.dart';
 class ContactDetailScreen extends StatefulWidget {
   final ContactModel contact;
 
@@ -240,7 +241,7 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
             child: Row(
               children: [
                 Expanded(
@@ -248,7 +249,19 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
                     text: 'GIVE',
                     icon: Icons.arrow_upward,
                     color: AppColors.give,
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AddPartiesTransactionScreen(
+                            contact: widget.contact,
+                            initialType: PartyTransactionType.give,
+                          ),
+                        ),
+                      );
+
+                      _loadTransactions();
+                    },
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -257,7 +270,19 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
                     text: 'GET',
                     icon: Icons.arrow_downward,
                     color: AppColors.get,
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AddPartiesTransactionScreen(
+                            contact: widget.contact,
+                            initialType: PartyTransactionType.get,
+                          ),
+                        ),
+                      );
+
+                      _loadTransactions();
+                    },
                   ),
                 ),
               ],
@@ -269,4 +294,3 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
   }
 }
 
-//filter

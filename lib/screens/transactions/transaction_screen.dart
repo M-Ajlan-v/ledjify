@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ledjify/screens/transactions/widgets/periodic_selector.dart';
 import 'package:provider/provider.dart';
 import 'package:ledjify/constants/app_colors.dart';
-import 'package:ledjify/providers/transaction_provider.dart';
+import 'package:ledjify/helpers/transaction_helpers.dart';
 import 'package:ledjify/screens/widgets/transaction_list.dart';
 
 class TransactionScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<TransactionProvider>().loadTransactions();
+      context.read<TransactionHelper>().loadTransactions();
     });
   }
 
@@ -48,7 +48,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
           },
         ),
       ),
-      body: Consumer<TransactionProvider>(
+      body: Consumer<TransactionHelper>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
             return const Center(
@@ -128,7 +128,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       ),
                     ),
                     PeriodSelector(
-                      currentPeriod: provider.period,
+                      currentPeriod: provider.periodLabel,
                       onTap: () {
                         provider.openPeriodSelector(context);
                       },

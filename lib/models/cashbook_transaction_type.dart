@@ -1,0 +1,4 @@
+enum CashbookTransactionType {
+  income,
+  expense,
+}

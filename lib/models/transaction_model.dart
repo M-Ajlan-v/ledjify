@@ -9,6 +9,7 @@ class TransactionModel {
   final double amount;
   final DateTime transactionDate;
   final String? details;
+  final String? invoiceUrl;
 
   const TransactionModel({
     required this.id,
@@ -21,5 +22,6 @@ class TransactionModel {
     required this.amount,
     required this.transactionDate,
     this.details,
+    this.invoiceUrl
   });
 }

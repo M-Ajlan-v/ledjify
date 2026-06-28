@@ -24,7 +24,7 @@ class UtilityData {
       id: 4,
       userId: 1,
       categoryName: 'Freelance',
-      type: 'INCOME',
+      type: 'EXPENSE',
     ),
     UtilityModel(
       id: 5,
@@ -37,6 +37,12 @@ class UtilityData {
       userId: 1,
       categoryName: 'Rent',
       type: 'EXPENSE',
+    ),
+    UtilityModel(
+      id: 7,
+      userId: 1,
+      categoryName: 'Freelance',
+      type: 'INCOME',
     ),
   ];
 

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:ledjify/constants/app_colors.dart';
 import 'package:ledjify/models/transaction_model.dart';
 import 'package:ledjify/data/contact_data.dart';
 import 'package:ledjify/data/utility_data.dart';

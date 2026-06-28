@@ -4,6 +4,7 @@ class ContactModel {
   final double amount;
   final PartyType type;
   final String imageUrl;
+  final String? phoneNumber;
 
   const ContactModel({
     required this.id,
@@ -11,6 +12,7 @@ class ContactModel {
     required this.amount,
     required this.type,
     required this.imageUrl,
+    this.phoneNumber
   });
 
   String get subtitle {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ledjify/constants/app_colors.dart';
 import 'package:ledjify/models/transaction_model.dart';
+import 'package:ledjify/screens/transfers/add_transfer_screen.dart';
 import 'package:ledjify/screens/widgets/app_button.dart';
 import 'package:ledjify/screens/widgets/transaction_list.dart';
 import 'package:ledjify/services/transaction_service.dart';
@@ -47,6 +48,14 @@ class _TransferScreenState extends State<TransferScreen> {
         backgroundColor: AppColors.background,
         centerTitle: true,
         title: const Text('Transfers'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+          ),
+        )
       ),
       body: Column(
         children: [
@@ -79,7 +88,17 @@ class _TransferScreenState extends State<TransferScreen> {
               text: 'TRANSFER',
               icon: Icons.swap_horiz,
               color: AppColors.primary,
-              onPressed: () {},
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        const AddTransferScreen(),
+                  ),
+                );
+
+                _loadTransfers();
+              },
             ),
           ),
         ],

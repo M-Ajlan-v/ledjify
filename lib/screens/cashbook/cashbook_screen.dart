@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ledjify/constants/app_colors.dart';
-import 'package:ledjify/providers/cashbook_provider.dart';
+import 'package:ledjify/helpers/cashbook_helpers.dart';
 import 'package:ledjify/screens/cashbook/widgets/cashbook_search_bar.dart';
 import 'package:ledjify/screens/cashbook/widgets/cashbook_summary_card.dart';
 import 'package:ledjify/screens/widgets/app_button.dart';
 import 'package:ledjify/screens/widgets/transaction_list.dart';
+import 'package:ledjify/models/cashbook_transaction_type.dart';
+import 'package:ledjify/screens/cashbook/cashbook_transaction_screen.dart';
 
 class CashbookScreen extends StatefulWidget {
   const CashbookScreen({super.key});
@@ -19,13 +21,13 @@ class _CashbookScreenState extends State<CashbookScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CashbookProvider>().loadTransactions();
+      context.read<CashbookHelper>().loadTransactions();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<CashbookProvider>();
+    final provider = context.watch<CashbookHelper>();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -52,7 +54,7 @@ class _CashbookScreenState extends State<CashbookScreen> {
                     onFilterTap: () => provider.openFilters(context),
                   ),
                   CashbookSummaryCard(
-                    period: provider.period,
+                    period: provider.periodLabel,
                     income: provider.incomeTotal,
                     expense: provider.expenseTotal,
                     onPeriodTap: () => provider.openPeriodSelector(context),
@@ -79,7 +81,18 @@ class _CashbookScreenState extends State<CashbookScreen> {
                     text: 'INCOME',
                     icon: Icons.arrow_upward,
                     color: AppColors.give,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              const CashbookTransactionScreen(
+                            initialType:
+                                CashbookTransactionType.income,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -88,7 +101,18 @@ class _CashbookScreenState extends State<CashbookScreen> {
                     text: 'EXPENSE',
                     icon: Icons.arrow_downward,
                     color: AppColors.get,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              const CashbookTransactionScreen(
+                            initialType:
+                                CashbookTransactionType.expense,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

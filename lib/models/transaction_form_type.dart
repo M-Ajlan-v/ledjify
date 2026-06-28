@@ -1,0 +1,4 @@
+enum PartyTransactionType {
+  give,
+  get,
+}

@@ -4,6 +4,7 @@ import 'package:ledjify/screens/accounts/account_screen.dart';
 import 'package:ledjify/screens/main_screen.dart';
 import 'package:ledjify/screens/more/widgets/profile_card.dart';
 import 'package:ledjify/screens/more/widgets/menu_section.dart';
+import 'package:ledjify/screens/tools/import_data_screen.dart';
 import 'package:ledjify/screens/transfers/transfer_screen.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -107,6 +108,12 @@ class MoreScreen extends StatelessWidget {
         title: 'Import Data',
         subtitle: 'Import from files',
         onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const ImportDataScreen(),
+            ),
+          );
         },
       ),
     ];

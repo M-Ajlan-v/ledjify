@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ledjify/providers/transaction_provider.dart';
+import 'package:ledjify/helpers/transaction_helpers.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/cashbook_provider.dart';
+import 'helpers/cashbook_helpers.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => CashbookProvider()),
-          ChangeNotifierProvider(create: (_) => TransactionProvider()),
+          create: (_) => CashbookHelper()),
+          ChangeNotifierProvider(create: (_) => TransactionHelper()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
